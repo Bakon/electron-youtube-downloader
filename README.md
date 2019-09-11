@@ -4,7 +4,6 @@
 
 [Electron](https://electronjs.org/)<br>
 [TypeScript](https://www.typescriptlang.org/)<br>
-[Webpack](https://webpack.js.org/)<br>
 [ESLint](https://eslint.org/)<br>
 [Prettier](https://prettier.io/)<br>
 
