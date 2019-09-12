@@ -12,16 +12,38 @@ body {
 }
 
 .container {
-  width: 100%;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   align-items: center;
   justify-content: center;
+  width: 100%;
   font-family: "Arial";
   text-align: center;
   background: url("../images/gradient-background.png");
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.user-options {
+  width: 40%;
+  display: flex;
+  flex-flow: column wrap;
+}
+.user-options .user-input {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+.user-options .user-input input[type=text] {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.user-options .button-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem 0;
 }
 
 /*# sourceMappingURL=styles.css.map */
