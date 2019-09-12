@@ -1,12 +1,31 @@
 {
   "name": "youtube-downloader",
   "homepage": "./",
-  "main": "./public/electron.js",
+  "main": "public/electron.js",
   "version": "1.0.0",
   "description": "Simple Electron app for downloading YouTube videos.",
   "private": true,
   "repository": "https://github.com/Julicolo/youtube-downloader",
-  "author": "Julio Schilders <julio.schilders@gmail.com>",
+  "author": {
+    "name": "Julio Schilders",
+    "email": "julio.schilders@gmail.com",
+    "url": "https://julicolo.github.io"
+  },
+  "build": {
+    "appId": "youtube-downloader",
+    "productName": "Youtube Downloader",
+    "copyright": "Copyright © 2019 Julio Schilders",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "node-sass": "^4.12.0",
@@ -21,7 +40,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "ebuild": "yarn run build && node_modules/.bin/build"
+    "ebuild": "yarn run build && node_modules/.bin/build",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "build -mw"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,11 +61,14 @@
     ]
   },
   "devDependencies": {
+    "@rescripts/cli": "^0.0.12",
+    "@rescripts/rescript-env": "^0.0.10",
     "concurrently": "^4.1.2",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
     "electron-is-dev": "^1.1.0",
     "prettier": "^1.18.2",
+    "typescript": "^3.6.3",
     "wait-on": "^3.3.0"
   },
   "prettier": {
