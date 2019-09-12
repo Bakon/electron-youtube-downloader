@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
+    "watchsass": "sass --watch styles/styles.sass styles/styles.css",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "yarn run build && electron ./dist/main.js"
   },
@@ -29,5 +30,8 @@
     "semi": true,
     "singleQuote": true,
     "bracketSpacing": false
+  },
+  "dependencies": {
+    "sass": "^1.22.12"
   }
 }

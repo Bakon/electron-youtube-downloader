@@ -2,10 +2,10 @@ from __future__ import unicode_literals
 from sys import argv
 
 import os
-import ffmpeg
 import youtube_dl
 
-class MyLogger(object):
+
+class Logger(object):
   def debug(self, msg):
     pass
 
@@ -15,26 +15,30 @@ class MyLogger(object):
   def error(self, msg):
     print(msg)
 
-def my_hook(download):
+
+def progress_checker(download):
   if download['status'] == 'finished':
-    print('Done downloading: ' + download['filename'])
+    print('Done downloading: \n  ' + download['filename'])
+
 
 download_options = {
   'format': 'best',
   'outtmpl': '%(title)s.%(ext)s',
   'nocheckcertificate': True,
-  'logger': MyLogger(),
-  'progress_hooks': [my_hook],
+  'logger': Logger(),
+  'progress_hooks': [progress_checker],
 }
 
-if not os.path.exists('Muziek'):
-  os.mkdir('Muziek')
+
+if os.path.exists('Music'):
+  os.chdir('Music')
 else:
-  os.chdir('Muziek')
+  os.mkdir('Music')
 
 # Initializes the youtubeDL class as 'dl'
 with youtube_dl.YoutubeDL(download_options) as dl:
   with open('../' + argv[1], 'r') as file:
     for song_url in file:
       song = dl.download([song_url])
-          
+
+
