@@ -1,28 +1,50 @@
 {
   "name": "youtube-downloader",
+  "homepage": "./",
+  "main": "./public/electron.js",
   "version": "1.0.0",
   "description": "Simple Electron app for downloading YouTube videos.",
-  "main": "index.js",
+  "private": true,
   "repository": "https://github.com/Julicolo/youtube-downloader",
   "author": "Julio Schilders <julio.schilders@gmail.com>",
   "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "node-sass": "^4.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1"
+  },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "watchsass": "sass --watch styles/styles.sass styles/styles.css",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "yarn run build && electron ./dist/main.js"
+    "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && yarn run electron\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "ebuild": "yarn run build && node_modules/.bin/build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.2.0",
-    "@typescript-eslint/parser": "^2.2.0",
-    "electron": "^6.0.8",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "concurrently": "^4.1.2",
+    "electron": "^6.0.9",
+    "electron-builder": "^21.2.0",
+    "electron-is-dev": "^1.1.0",
     "prettier": "^1.18.2",
-    "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "wait-on": "^3.3.0"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -30,8 +52,5 @@
     "semi": true,
     "singleQuote": true,
     "bracketSpacing": false
-  },
-  "dependencies": {
-    "sass": "^1.22.12"
   }
 }
