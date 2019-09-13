@@ -1,50 +1,87 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../App.sass';
+import fs from 'fs';
+import os from 'os';
+import {PythonShell} from 'python-shell';
 
-// window.require because we're using React with Webpack
-const fs = window.require('fs');
-const os = window.require('os');
-const child_process = window.require('child_process');
+export default class App extends React.Component {
+  state = {
+    input: '',
+    songs: [],
+    isMenuOpen: false,
+  };
 
-export default function App() {
-  const [input, setInput] = useState('');
+  render() {
+    const {input, songs} = this.state;
 
-  return (
-    <div className="container">
-      <h1>Youtube Downloader</h1>
-      <div className="user-options">
-        <div className="user-input">
-          <label htmlFor="music-input">Enter song(s):</label>
-          <input
-            type="text"
-            name="music-input"
-            value={input}
-            placeholder="Enter YouTube video URL here..."
-            onChange={event => setInput(event.target.value)}
-          />
+    return (
+      <div className="container">
+        <div className="settings">
+          <div className="settings-icon">
+            <img
+              src={require('../assets/svg/settings.svg')}
+              alt="settings"
+              onClick={e => this.setState({isMenuOpen: !this.state.isMenuOpen})}
+            />
+          </div>
+          <div className={this.state.isMenuOpen ? 'open' : 'closed'}>
+            <ul>
+              <li>Choose download folder</li>
+              <li>Your waifu is shit</li>
+              <li>Placeholder</li>
+              <li>My swamp</li>
+              <li>Woof</li>
+            </ul>
+          </div>
         </div>
-        <div className="button-wrapper">
-          <button
-            className="add-to-list"
-            onClick={e => {
-              fs.appendFile('./songs.txt', input + os.EOL, err => {
-                if (err) throw err;
-              });
-              setInput('');
-            }}
-          >
-            Add to download list
-          </button>
-          <button
-            className="download-button"
-            onClick={e =>
-              child_process.execSync('python3 downloader.py songs.txt')
-            }
-          >
-            Download Songs
-          </button>
+        <h1>Youtube Downloader</h1>
+        <div className="user-options">
+          <div className="user-input">
+            <label htmlFor="music-input">Enter song(s):</label>
+            <input
+              type="text"
+              name="music-input"
+              value={input}
+              placeholder="Enter YouTube video URL here..."
+              onChange={event => this.setState({input: event.target.value})}
+            />
+          </div>
+          <div className="button-wrapper">
+            <button
+              className="add-to-list"
+              onClick={e => {
+                if (input.trim() === '') return;
+                fs.appendFile('./songs.txt', input.trim() + os.EOL, err => {
+                  if (err) throw err;
+                });
+                this.setState(prevState => ({
+                  input: '',
+                  songs: [...songs, prevState.input],
+                }));
+              }}
+            >
+              Add to download list
+            </button>
+            <button
+              className="download-button"
+              onClick={e =>
+                PythonShell.run('downloader.py', null, err => {
+                  if (err) throw err;
+                })
+              }
+            >
+              Download Songs
+            </button>
+          </div>
+        </div>
+        <div className="given-songs">
+          <ul>
+            {songs.map(song => {
+              return <li key={song}>{song}</li>;
+            })}
+          </ul>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

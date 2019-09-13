@@ -19,14 +19,43 @@ body
   width: 100%
   font-family: 'Arial'
   text-align: center
-  background: url('images/gradient-background.png')
+  background: url('assets/images/gradient-background.png')
   background-repeat: no-repeat
   background-size: cover
+  position: relative
+  h1
+    color: #595a69
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+
+.settings
+  display: flex
+  flex: 0 0 auto
+  flex-flow: column wrap
+  align-items: flex-end
+  width: 100%
+  .settings-icon
+    width: 5rem
+    margin: 1rem 0
+    img
+      width: 4rem
+  .open, .closed
+    li
+      display: flex
+      justify-content: flex-end
+      align-items: center
+      height: 3rem
+      margin-right: 1rem
+  .closed
+    display: none
 
 .user-options
-  width: 40%
+  width: 50%
   display: flex
   flex-flow: column wrap
+  flex: 1 1 auto
   .user-input
     @include flex-center
     input[type=text]
@@ -36,4 +65,13 @@ body
   .button-wrapper
     display: flex
     justify-content: space-evenly
-    margin: 1rem 0
+    button
+      width: 100%
+      margin: 1rem .5rem
+      border-radius: 1rem
+      box-shadow: 1.5px 1.5px 2px 0px cornflowerblue
+      outline: none
+      background-color: white
+
+
+

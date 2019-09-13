@@ -18,7 +18,7 @@ def progress_checker(download):
   if download['status'] == 'finished':
     print('Done downloading: \n  ' + download['filename'])
 
-file = '../' + argv[1]
+file = '../songs.txt'
 download_options = {
   'format': 'best',
   'outtmpl': '%(title)s.%(ext)s',

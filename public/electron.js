@@ -1,3 +1,4 @@
+// We cannot use imports here!
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
@@ -19,7 +20,7 @@ function createWindow() {
 
   window.loadURL(startUrl);
 
-  window.webContents.openDevTools();
+  if (isDev) window.webContents.openDevTools();
 
   window.once('ready-to-show', () => window.show());
 

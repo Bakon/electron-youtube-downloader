@@ -12,7 +12,7 @@
     "url": "https://julicolo.github.io"
   },
   "build": {
-    "appId": "youtube-downloader",
+    "appId": "420",
     "productName": "Youtube Downloader",
     "copyright": "Copyright © 2019 Julio Schilders",
     "mac": {
@@ -28,22 +28,22 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
     "node-sass": "^4.12.0",
+    "python-shell": "^1.0.8",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
   },
   "scripts": {
     "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && yarn run electron\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "rescripts start",
+    "test": "rescripts test",
+    "build": "rescripts build",
+    "eject": "rescripts eject",
     "electron": "electron .",
-    "ebuild": "yarn run build && node_modules/.bin/build",
     "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "yarn build",
-    "electron-pack": "build -mw"
+    "dist": "yarn build && electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -66,9 +66,7 @@
     "concurrently": "^4.1.2",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
-    "electron-is-dev": "^1.1.0",
     "prettier": "^1.18.2",
-    "typescript": "^3.6.3",
     "wait-on": "^3.3.0"
   },
   "prettier": {
