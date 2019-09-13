@@ -8,6 +8,7 @@ A simple app for downloading youtube videos, for my dad because he old skool.<br
 [Electron](https://electronjs.org/)<br>
 [React](https://reactjs.org/)<br>
 [Sass](https://sass-lang.com)<br>
+[Webpack](https://webpack.js.org/)<br>
 [ESLint](https://eslint.org/)<br>
 [Prettier](https://prettier.io/)<br>
 [Youtube-dl](https://github.com/ytdl-org/youtube-dl)

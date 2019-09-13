@@ -2,6 +2,7 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+// isDev will tell us if we're in development mode
 
 let window;
 
@@ -18,9 +19,9 @@ function createWindow() {
     ? 'http://localhost:3000'
     : `file://${path.join(__dirname, '../build/index.html')}`;
 
-  window.loadURL(startUrl);
-
   if (isDev) window.webContents.openDevTools();
+
+  window.loadURL(startUrl);
 
   window.once('ready-to-show', () => window.show());
 
@@ -37,8 +38,8 @@ function createWindow() {
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  // On OS X it's common for applications to stay active in
-  // the application bar until the user quits explicitly with Cmd + Q
+  // Most OS X applications stay active in the tray
+  // until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
   }

@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from sys import argv
 
 import os
 import youtube_dl
