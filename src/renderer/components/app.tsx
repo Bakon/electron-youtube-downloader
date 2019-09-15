@@ -1,7 +1,7 @@
-import React from 'react';
-import '../App.sass';
-import fs from 'fs';
-import os from 'os';
+import * as React from 'react';
+import '@public/style.sass';
+import * as fs from 'fs';
+import * as os from 'os';
 import {PythonShell} from 'python-shell';
 
 export default class App extends React.Component {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
         <div className="settings">
           <div className="settings-icon">
             <img
-              src={require('../assets/svg/settings.svg')}
+              src={require('@public/assets/svg/settings.svg')}
               alt="settings"
               onClick={e => this.setState({isMenuOpen: !this.state.isMenuOpen})}
             />

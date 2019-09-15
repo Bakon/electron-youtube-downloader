@@ -1,73 +1,83 @@
 {
-  "name": "youtube-downloader",
-  "homepage": "./",
-  "main": "public/electron.js",
-  "version": "1.0.0",
+  "name": "Youtube-Downloader",
+  "version": "1.0.1",
   "description": "Simple Electron app for downloading YouTube videos.",
-  "private": true,
-  "repository": "https://github.com/Julicolo/youtube-downloader",
+  "main": "./dist/main.bundle.js",
+  "homepage": "https://github.com/Julicolo/youtube-downloader#readme",
   "author": {
     "name": "Julio Schilders",
     "email": "julio.schilders@gmail.com",
     "url": "https://julicolo.github.io"
   },
+  "scripts": {
+    "start": "electron ./dist/main.bundle.js",
+    "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
+    "prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --colors",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\"",
+    "build:win": "electron-builder build --win --x64",
+    "build:mac": "electron-builder build --mac --x64"
+  },
   "build": {
-    "appId": "420",
-    "productName": "Youtube Downloader",
+    "appId": "com.julicolo.youtube-downloader",
+    "productName": "Youtube-Downloader",
     "copyright": "Copyright © 2019 Julio Schilders",
+    "directories": {
+      "app": "./dist/",
+      "output": "./out/"
+    },
     "mac": {
       "category": "public.app-category.utilities"
     },
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
+    "win": {
+      "target": "nsis",
+      "asar": false
+    },
+    "buildVersion": "1.0.1"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "electron-is-dev": "^1.1.0",
-    "node-sass": "^4.12.0",
-    "python-shell": "^1.0.8",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.1.1"
-  },
-  "scripts": {
-    "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && yarn run electron\"",
-    "start": "rescripts start",
-    "test": "rescripts test",
-    "build": "rescripts build",
-    "eject": "rescripts eject",
-    "electron": "electron .",
-    "postinstall": "electron-builder install-app-deps",
-    "dist": "yarn build && electron-builder"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "python-shell": "^1.0.8"
   },
   "devDependencies": {
-    "@rescripts/cli": "^0.0.12",
-    "@rescripts/rescript-env": "^0.0.10",
-    "concurrently": "^4.1.2",
-    "electron": "^6.0.9",
-    "electron-builder": "^21.2.0",
-    "prettier": "^1.18.2",
-    "wait-on": "^3.3.0"
+    "@types/mocha": "^5.2.5",
+    "@types/react-router": "^4.4.3",
+    "@types/react-router-dom": "^4.3.1",
+    "acorn": "^6.0.5",
+    "ajv": "^6.6.2",
+    "copy-pkg-json-webpack-plugin": "0.0.38",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.1",
+    "electron": "^3.1.2",
+    "electron-builder": "^20.38.5",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.12.4",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0",
+    "node-sass": "^4.12.0",
+    "rimraf": "^2.6.3",
+    "sass-loader": "^8.0.0",
+    "source-map-loader": "^0.2.4",
+    "spectron": "^5.0.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.7.0",
+    "tslint": "^5.12.0",
+    "tslint-microsoft-contrib": "^5.2.1",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.1",
+    "webpack-cli": "^3.2.1",
+    "prettier": "^1.18.2"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -75,5 +85,17 @@
     "semi": true,
     "singleQuote": true,
     "bracketSpacing": false
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Julicolo/youtube-downloader"
+  },
+  "keywords": [
+    "Electron",
+    "React",
+    "Typescript",
+    "Webpack",
+    "Python",
+    "Youtube-dl"
+  ]
 }
