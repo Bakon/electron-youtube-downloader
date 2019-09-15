@@ -5,8 +5,9 @@ A simple app for downloading youtube videos, for my dad because he old skool.<br
 ### `Tools used in this project`
 
 [Python](https://www.python.org/)<br>
-[Electron](https://electronjs.org/)<br>
+[TypeScript](https://www.typescriptlang.org/)<br>
 [React](https://reactjs.org/)<br>
+[Electron](https://electronjs.org/)<br>
 [Sass](https://sass-lang.com)<br>
 [Webpack](https://webpack.js.org/)<br>
 [ESLint](https://eslint.org/)<br>
@@ -19,13 +20,12 @@ In the project directory, you can run:
 
 ### `yarn dev`
 
-Opens a new application window with hot reloading.
+Webpack will start in development mode and it'll watches for changes on the source files.
 
-### `yarn dist`
+### `yarn build:mac`
 
-Builds the current project into a build folder.<br>
-It then makes a dist folder based on the contents of the build.<br>
+Uses [Electron-builder](https://www.electron.build/cli) to build the current project, for MacOS.
 
-### `yarn postinstall`
+### `yarn build:win`
 
-Updates dependencies in the current build folder.<br>
+Uses [Electron-builder](https://www.electron.build/cli) to build the current project, for Windows.
