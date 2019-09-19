@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/public/assets/videos/*
 /.pnp
 .pnp.js
 
@@ -9,7 +10,6 @@
 # production
 /build
 /dist
-/Music
 
 # misc
 .DS_Store

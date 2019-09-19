@@ -17,7 +17,8 @@ def progress_checker(download):
   if download['status'] == 'finished':
     print('Done downloading: \n  ' + download['filename'])
 
-file = '../songs.txt'
+folder = 'public/assets/videos/'
+file = '../../../songs.txt'
 download_options = {
   'format': 'best',
   'outtmpl': '%(title)s.%(ext)s',
@@ -26,16 +27,16 @@ download_options = {
   'progress_hooks': [progress_checker],
 }
 
-if not os.path.exists('Music'):
-  os.mkdir('Music')
+if not os.path.exists(folder):
+  os.mkdir(folder)
   
-os.chdir('Music')
+os.chdir(folder)
 
-# Initializes the youtubeDL class as 'dl'
-with youtube_dl.YoutubeDL(download_options) as dl:
+# Makes new instance of the youtubeDL class as 'downloader'
+with youtube_dl.YoutubeDL(download_options) as downloader:
   with open(file, 'r') as file_in:
     for song_url in file_in:
-      song = dl.download([song_url])
+      song = downloader.download([song_url])
     data = file_in.read().splitlines(True)
   with open(file, 'w') as file_out:
     file_out.writelines(data[1:])

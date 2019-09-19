@@ -10,12 +10,11 @@ function srcPaths(src) {
 const isEnvProduction = process.env.NODE_ENV === 'production';
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
 
-// #region Common settings
 const commonConfig = {
   devtool: isEnvDevelopment ? 'source-map' : false,
   mode: isEnvProduction ? 'production' : 'development',
-  output: { path: srcPaths('dist') },
-  node: { __dirname: false, __filename: false },
+  output: {path: srcPaths('dist')},
+  node: {__dirname: false, __filename: false},
   resolve: {
     alias: {
       '@': srcPaths('src'),
@@ -48,7 +47,6 @@ const commonConfig = {
     ],
   },
 };
-// #endregion
 
 const mainConfig = lodash.cloneDeep(commonConfig);
 mainConfig.entry = './src/main/main.ts';
@@ -59,7 +57,7 @@ mainConfig.plugins = [
     remove: ['scripts', 'devDependencies', 'build'],
     replace: {
       main: './main.bundle.js',
-      scripts: { start: 'electron ./main.bundle.js' },
+      scripts: {start: 'electron ./main.bundle.js'},
       postinstall: 'electron-builder install-app-deps',
     },
   }),

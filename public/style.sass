@@ -23,6 +23,7 @@ body
   background-repeat: no-repeat
   background-size: cover
   position: relative
+  cursor: default
   h1
     color: #595a69
   ul
@@ -30,32 +31,45 @@ body
     margin: 0
     padding: 0
 
-.settings
+header
+  position: fixed
+  top: 0
   display: flex
-  flex: 0 0 auto
-  flex-flow: column wrap
-  align-items: flex-end
+  flex-flow: row wrap
+  justify-content: space-between
   width: 100%
-  .settings-icon
-    width: 5rem
-    margin: 1rem 0
-    img
-      width: 4rem
-  .open, .closed
-    li
-      display: flex
-      justify-content: flex-end
-      align-items: center
-      height: 3rem
-      margin-right: 1rem
-  .closed
-    display: none
+  & > div
+    margin: 1rem
+    max-width: 50%
+  .given-songs
+    text-align: left
+    h4
+      margin-top: 0
+  .settings
+    display: flex
+    flex-flow: column wrap
+    align-items: flex-end
+    button
+      background: none
+      border: none
+      outline: none
+      cursor: pointer
+      img
+        width: 4rem
+    .open, .closed
+      li
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        height: 3rem
+    .closed
+      display: none
 
-.user-options
+.main
   width: 50%
   display: flex
   flex-flow: column wrap
-  flex: 1 1 auto
+  justify-content: center
   .user-input
     @include flex-center
     input[type=text]
@@ -68,10 +82,9 @@ body
     button
       width: 100%
       margin: 1rem .5rem
-      border-radius: 1rem
-      box-shadow: 1.5px 1.5px 2px 0px cornflowerblue
+      cursor: pointer
+      border: none
+      border-radius: 5%
+      box-shadow: 1px 1px 5px 1px cornflowerblue
       outline: none
       background-color: white
-
-
-
