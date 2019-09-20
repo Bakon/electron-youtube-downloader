@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -20,6 +20,5 @@
     "sourceMap": true,
     "target": "esnext"
   },
-  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

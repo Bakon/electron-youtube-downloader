@@ -1,6 +1,6 @@
-const lodash = require('lodash');
 const CopyPkgJsonPlugin = require('copy-pkg-json-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const lodash = require('lodash');
 const path = require('path');
 
 function srcPaths(src) {

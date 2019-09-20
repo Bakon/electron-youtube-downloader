@@ -4,6 +4,11 @@
   align-items: center
   justify-content: center
 
+@mixin default-button
+  border: none
+  outline: none
+  cursor: pointer
+
 * 
   box-sizing: border-box
 
@@ -45,16 +50,21 @@ header
     text-align: left
     h4
       margin-top: 0
+    button
+      @include default-button
+      width: 50%
+      border-radius: 5%
+      box-shadow: 1px 1px 5px 1px cornflowerblue
+      background-color: white
   .settings
     display: flex
     flex-flow: column wrap
     align-items: flex-end
     button
-      background: none
-      border: none
-      outline: none
-      cursor: pointer
+      @include default-button
+      background-color: cornflowerblue
       img
+        padding: .5rem
         width: 4rem
     .open, .closed
       li
@@ -62,6 +72,9 @@ header
         justify-content: flex-end
         align-items: center
         height: 3rem
+        background-color: cornflowerblue
+        color: white
+        padding: .5rem
     .closed
       display: none
 
@@ -80,11 +93,9 @@ header
     display: flex
     justify-content: space-evenly
     button
+      @include default-button
       width: 100%
       margin: 1rem .5rem
-      cursor: pointer
-      border: none
       border-radius: 5%
       box-shadow: 1px 1px 5px 1px cornflowerblue
-      outline: none
       background-color: white

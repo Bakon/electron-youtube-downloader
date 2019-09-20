@@ -17,6 +17,8 @@ def progress_checker(download):
   if download['status'] == 'finished':
     print('Done downloading: \n  ' + download['filename'])
 
+# Todo: make folder & file come from argsv[1] && argv[2]
+
 folder = 'public/assets/videos/'
 file = '../../../songs.txt'
 download_options = {

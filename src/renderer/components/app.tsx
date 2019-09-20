@@ -1,5 +1,4 @@
 import React from 'react';
-import readline from 'readline';
 import fs from 'fs';
 import os from 'os';
 
@@ -10,22 +9,53 @@ interface IState {
   input: string;
   songs: string[];
   isMenuOpen: boolean;
+  downloadLocation: string;
 }
 
 export default class App extends React.Component<{}, IState> {
   public state: IState = {
     input: '',
-    songs: ['hello'],
+    songs: [],
     isMenuOpen: false,
+    downloadLocation: '',
   };
 
+  // Adds user input to 'downloading queue' list
+  updateQueue(): void {
+    const {songs, input} = this.state;
+
+    // If the song is already in the queue, return
+    if (songs.includes(input.trim()) || input.trim() === '') return;
+    fs.appendFile('./songs.txt', input.trim() + os.EOL, err => {
+      if (err) throw err;
+    });
+    this.setState(prevState => ({
+      input: '',
+      songs: [...songs, prevState.input],
+    }));
+  }
+
+  // Removes clicked items from the queue
+  removeFromQueue(event: React.MouseEvent<HTMLElement>): void {
+    const {songs} = this.state;
+    const target = event.target as HTMLElement;
+    const textNode: string = target.innerText;
+    const index: number = songs.indexOf(textNode);
+    const newState: string[] = songs.filter(song => song !== textNode);
+
+    this.setState({
+      songs: newState,
+    });
+  }
+
   componentDidMount(): void {
-    const songsArray: string[] = fs
+    // Reads the text file containing the previously added songs
+    const fileOutput: string[] = fs
       .readFileSync('songs.txt', 'utf8')
       .split('\n');
 
     this.setState(prevState => ({
-      songs: [...songsArray, ...prevState.songs],
+      songs: [...fileOutput, ...prevState.songs],
     }));
   }
 
@@ -37,10 +67,21 @@ export default class App extends React.Component<{}, IState> {
         <header>
           <div className="given-songs">
             <h4>Current downloading queue:</h4>
+            <button
+              onClick={() =>
+                this.setState({
+                  songs: [],
+                })
+              }
+            >
+              Clear queue
+            </button>
             <ul>
-              {songs.map(song => {
-                return <li key={song}>{song}</li>;
-              })}
+              {songs.map(song => (
+                <li key={song} onClick={event => this.removeFromQueue(event)}>
+                  {song}
+                </li>
+              ))}
             </ul>
           </div>
           <div className="settings">
@@ -73,25 +114,15 @@ export default class App extends React.Component<{}, IState> {
             />
           </div>
           <div className="button-wrapper">
-            <button
-              className="add-to-list"
-              onClick={e => {
-                if (input.trim() === '') return;
-                fs.appendFile('./songs.txt', input.trim() + os.EOL, err => {
-                  if (err) throw err;
-                });
-                this.setState(prevState => ({
-                  input: '',
-                  songs: [...songs, prevState.input],
-                }));
-              }}
-            >
+            <button className="add-to-list" onClick={() => this.updateQueue()}>
               Add to download list
             </button>
             <button
               className="download-button"
               onClick={e =>
                 // Python reads songs.txt and handles the downloading part
+                // Can be given arguments to pass down the selected
+                //download folder and songs.txt location
                 PythonShell.run(
                   'src/renderer/components/downloader.py',
                   {},
