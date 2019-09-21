@@ -8,6 +8,10 @@
   border: none
   outline: none
   cursor: pointer
+  height: 2rem
+  width: 10rem
+
+$grey: #808080
 
 * 
   box-sizing: border-box
@@ -21,6 +25,7 @@ body
 
 .container 
   @include flex-center
+  justify-content: flex-start
   width: 100%
   font-family: 'Arial'
   text-align: center
@@ -35,54 +40,27 @@ body
     list-style: none
     margin: 0
     padding: 0
-
-header
-  position: fixed
-  top: 0
-  display: flex
-  flex-flow: row wrap
-  justify-content: space-between
-  width: 100%
-  & > div
-    margin: 1rem
-    max-width: 50%
-  .given-songs
-    text-align: left
-    h4
-      margin-top: 0
-    button
-      @include default-button
-      width: 50%
-      border-radius: 5%
-      box-shadow: 1px 1px 5px 1px cornflowerblue
-      background-color: white
-  .settings
-    display: flex
-    flex-flow: column wrap
-    align-items: flex-end
-    button
-      @include default-button
-      background-color: cornflowerblue
-      img
-        padding: .5rem
-        width: 4rem
-    .open, .closed
-      li
-        display: flex
-        justify-content: flex-end
-        align-items: center
-        height: 3rem
-        background-color: cornflowerblue
-        color: white
-        padding: .5rem
-    .closed
-      display: none
+  > div
+    width: 75%
+    margin: 2.5rem
+    padding: 2.5rem
+    background: rgba(255, 255, 255, .4)
 
 .main
-  width: 50%
   display: flex
   flex-flow: column wrap
   justify-content: center
+  .settings
+    display: flex
+    flex-flow: column wrap
+    align-items: center
+    justify-content: center
+    margin: 1rem 0
+    button
+      @include default-button
+      background-color: orange
+      margin: 1rem
+      height: 2.5rem
   .user-input
     @include flex-center
     input[type=text]
@@ -92,10 +70,28 @@ header
   .button-wrapper
     display: flex
     justify-content: space-evenly
+    margin: 1rem 0
     button
       @include default-button
-      width: 100%
-      margin: 1rem .5rem
-      border-radius: 5%
       box-shadow: 1px 1px 5px 1px cornflowerblue
-      background-color: white
+      background-color: #3cd07e
+    button.inactive
+      cursor: not-allowed
+      background: $grey
+
+div.queue
+  flex-grow: 1
+  margin-top: 0
+  li
+    margin: .5rem
+    span
+      font-size: 1.5rem
+  h4
+    margin-top: 0
+  button
+    @include default-button
+    width: 50%
+    box-shadow: 1px 1px 5px 1px cornflowerblue
+    background-color: white
+  li::after
+    content: '❌'

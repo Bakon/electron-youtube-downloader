@@ -36,11 +36,12 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@types/python-shell": "^0.4.2",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "python-shell": "^1.0.8",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "python-shell": "^1.0.8"
+    "react-dom": "^16.7.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -64,6 +65,7 @@
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "node-sass": "^4.12.0",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
     "sass-loader": "^8.0.0",
     "source-map-loader": "^0.2.4",
@@ -76,8 +78,7 @@
     "tslint-microsoft-contrib": "^5.2.1",
     "typescript": "^3.2.2",
     "webpack": "^4.28.1",
-    "webpack-cli": "^3.2.1",
-    "prettier": "^1.18.2"
+    "webpack-cli": "^3.2.1"
   },
   "prettier": {
     "trailingComma": "es5",

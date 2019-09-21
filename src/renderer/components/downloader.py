@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-import os
+import os, sys, json
 import youtube_dl
 
 class Logger(object):
@@ -15,12 +15,14 @@ class Logger(object):
 
 def progress_checker(download):
   if download['status'] == 'finished':
-    print('Done downloading: \n  ' + download['filename'])
+    print(download['filename'][:-4])
 
-# Todo: make folder & file come from argsv[1] && argv[2]
+def read_in():
+  lines = sys.stdin.readlines()
+  return json.loads(lines[0])
 
-folder = 'public/assets/videos/'
-file = '../../../songs.txt'
+songs_array = read_in()
+
 download_options = {
   'format': 'best',
   'outtmpl': '%(title)s.%(ext)s',
@@ -29,17 +31,9 @@ download_options = {
   'progress_hooks': [progress_checker],
 }
 
-if not os.path.exists(folder):
-  os.mkdir(folder)
-  
-os.chdir(folder)
+os.chdir(sys.argv[1])
 
 # Makes new instance of the youtubeDL class as 'downloader'
 with youtube_dl.YoutubeDL(download_options) as downloader:
-  with open(file, 'r') as file_in:
-    for song_url in file_in:
-      song = downloader.download([song_url])
-    data = file_in.read().splitlines(True)
-  with open(file, 'w') as file_out:
-    file_out.writelines(data[1:])
-
+  for song_url in songs_array:
+    downloader.download([song_url])

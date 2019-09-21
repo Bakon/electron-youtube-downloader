@@ -2,33 +2,52 @@ import React from 'react';
 import fs from 'fs';
 import os from 'os';
 
-import {PythonShell} from 'python-shell';
 import '@public/style.sass';
+import {PythonShell} from 'python-shell';
+const {dialog} = require('electron').remote;
 
 interface IState {
   input: string;
   songs: string[];
   isMenuOpen: boolean;
+  isDownloading: boolean;
   downloadLocation: string;
 }
 
 export default class App extends React.Component<{}, IState> {
-  public state: IState = {
+  state: IState = {
     input: '',
     songs: [],
-    isMenuOpen: false,
+    isMenuOpen: true,
+    isDownloading: false,
     downloadLocation: '',
   };
 
-  // Adds user input to 'downloading queue' list
-  updateQueue(): void {
-    const {songs, input} = this.state;
-
-    // If the song is already in the queue, return
-    if (songs.includes(input.trim()) || input.trim() === '') return;
-    fs.appendFile('./songs.txt', input.trim() + os.EOL, err => {
-      if (err) throw err;
+  // Gets invoked when clicked on 'Download Songs'
+  executeDownloader() {
+    const python = new PythonShell('src/renderer/components/downloader.py', {
+      args: [`${this.state.downloadLocation}`],
     });
+
+    python.send(JSON.stringify(this.state.songs));
+
+    // Gets invoked when Python prints something
+    python.on('message', pythonOutput => {
+      console.log(pythonOutput);
+    });
+
+    // Gets invoked when the script is done
+    python.end((err, code, signal) => {
+      if (err) throw err;
+      this.setState({isDownloading: false});
+      console.log('Python script has finished');
+    });
+  }
+
+  // Adds to queue if input isnt empty or already exists
+  addToQueue() {
+    const {songs, input} = this.state;
+    if (songs.includes(input) || input.trim() === '') return;
     this.setState(prevState => ({
       input: '',
       songs: [...songs, prevState.input],
@@ -36,11 +55,10 @@ export default class App extends React.Component<{}, IState> {
   }
 
   // Removes clicked items from the queue
-  removeFromQueue(event: React.MouseEvent<HTMLElement>): void {
+  removeFromQueue(event: React.MouseEvent<HTMLElement>) {
     const {songs} = this.state;
     const target = event.target as HTMLElement;
     const textNode: string = target.innerText;
-    const index: number = songs.indexOf(textNode);
     const newState: string[] = songs.filter(song => song !== textNode);
 
     this.setState({
@@ -48,61 +66,28 @@ export default class App extends React.Component<{}, IState> {
     });
   }
 
-  componentDidMount(): void {
-    // Reads the text file containing the previously added songs
-    const fileOutput: string[] = fs
-      .readFileSync('songs.txt', 'utf8')
-      .split('\n');
-
-    this.setState(prevState => ({
-      songs: [...fileOutput, ...prevState.songs],
-    }));
-  }
-
   render() {
-    const {input, songs} = this.state;
+    const {input, songs, isDownloading, downloadLocation} = this.state;
 
     return (
       <div className="container">
-        <header>
-          <div className="given-songs">
-            <h4>Current downloading queue:</h4>
+        <div className="main">
+          <h1>Youtube Downloader</h1>
+          <div className="settings">
+            <h3>Choose your download folder</h3>
             <button
               onClick={() =>
                 this.setState({
-                  songs: [],
+                  downloadLocation: dialog.showOpenDialog({
+                    properties: ['openDirectory'],
+                  })[0],
                 })
               }
             >
-              Clear queue
+              Choose download folder
             </button>
-            <ul>
-              {songs.map(song => (
-                <li key={song} onClick={event => this.removeFromQueue(event)}>
-                  {song}
-                </li>
-              ))}
-            </ul>
+            <h4>Selected folder: {downloadLocation === '' ? 'None :(' : downloadLocation}</h4>
           </div>
-          <div className="settings">
-            <button>
-              <img
-                src={require('@public/assets/svg/settings.svg')}
-                alt="settings"
-                onClick={e =>
-                  this.setState({isMenuOpen: !this.state.isMenuOpen})
-                }
-              />
-            </button>
-            <div className={this.state.isMenuOpen ? 'open' : 'closed'}>
-              <ul>
-                <li>Choose download folder</li>
-              </ul>
-            </div>
-          </div>
-        </header>
-        <div className="main">
-          <h1>Youtube Downloader</h1>
           <div className="user-input">
             <label htmlFor="music-input">Enter song(s):</label>
             <input
@@ -114,27 +99,40 @@ export default class App extends React.Component<{}, IState> {
             />
           </div>
           <div className="button-wrapper">
-            <button className="add-to-list" onClick={() => this.updateQueue()}>
+            <button className="add-to-list" onClick={() => this.addToQueue()}>
               Add to download list
             </button>
             <button
-              className="download-button"
-              onClick={e =>
-                // Python reads songs.txt and handles the downloading part
-                // Can be given arguments to pass down the selected
-                //download folder and songs.txt location
-                PythonShell.run(
-                  'src/renderer/components/downloader.py',
-                  {},
-                  (error?: any) => {
-                    if (error) throw error;
-                  }
-                )
-              }
+              className={`${
+                isDownloading || downloadLocation === '' ? 'inactive ' : ''
+              } download-button`}
+              onClick={() => {
+                this.setState({isDownloading: true});
+                this.executeDownloader();
+              }}
             >
               Download Songs
             </button>
           </div>
+        </div>
+        <div className="queue">
+          <h3>Current downloading queue:</h3>
+          <button
+            onClick={() =>
+              this.setState({
+                songs: [],
+              })
+            }
+          >
+            Clear queue
+          </button>
+          <ul>
+            {songs.map((song, index) => (
+              <li key={song} onClick={event => this.removeFromQueue(event)}>
+                <span>{song}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );
