@@ -44,7 +44,7 @@ body
     width: 75%
     margin: 2.5rem
     padding: 2.5rem
-    background: rgba(255, 255, 255, .4)
+    background: rgba(255, 255, 255, .5)
 
 .main
   display: flex
@@ -83,15 +83,15 @@ div.queue
   flex-grow: 1
   margin-top: 0
   li
-    margin: .5rem
-    span
+    display: flex
+    justify-content: space-between
+    padding: 1rem 0
+    border-bottom: 1px dotted cornflowerblue
+    span:first-child
       font-size: 1.5rem
   h4
     margin-top: 0
   button
     @include default-button
-    width: 50%
     box-shadow: 1px 1px 5px 1px cornflowerblue
     background-color: white
-  li::after
-    content: '❌'
