@@ -32,9 +32,10 @@ download_options = {
 }
 
 os.chdir(sys.argv[1])
+print(sys.argv[1])
 
 # Makes new instance of the youtubeDL class as 'downloader'
 with youtube_dl.YoutubeDL(download_options) as downloader:
-  for song_url in songs_array:
-    print(download)
-    downloader.download([song_url])
+  for songs_object in songs_array:
+    print(songs_object['id'])
+    downloader.download([songs_object['id']])

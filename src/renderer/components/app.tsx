@@ -5,7 +5,8 @@ import os from 'os';
 
 import '@public/style.sass';
 import {PythonShell} from 'python-shell';
-import {dialog} from 'electron';
+
+const {dialog} = require('electron').remote;
 
 interface IState {
   input: string;
@@ -26,20 +27,20 @@ export default class App extends React.Component<{}, IState> {
 
   // Gets invoked when clicked on 'Download Songs'
   executePython(file: string): void {
+    console.log(file);
     const python = new PythonShell(`src/renderer/components/${file}.py`, {
       args: [`${this.state.downloadLocation}`],
     });
 
     python.send(JSON.stringify(this.state.queue));
 
-    // Gets invoked when Python prints something
+    // Gets invoked when Python uses a print statement
     python.on('message', (output: string) => {
-      // Reads Python print statements as output
       console.log(output);
     });
 
     // Gets invoked when the script is done
-    python.end((error: Error, code: number, signal: string) => {
+    python.end((error, code: number, signal: string) => {
       if (error) throw error;
       this.setState({isDownloading: false});
       console.log('Python script has finished');
@@ -71,6 +72,7 @@ export default class App extends React.Component<{}, IState> {
           ...prevState.queue,
           {
             id: json.items[0].id,
+            url: userInput,
             title: json.items[0].snippet.title,
             views: json.items[0].statistics.viewCount,
           },
@@ -95,6 +97,7 @@ export default class App extends React.Component<{}, IState> {
     const apiKey = 'AIzaSyDqFA2ZNO0ijoxAWW4Xf_eOJYlGkHctJkU';
     const toFetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${apiKey}&fields=items(id,snippet(title),statistics)&part=snippet,statistics`;
 
+    console.log(toFetchUrl);
     return Promise.resolve(fetch(toFetchUrl).then(response => response.json()));
   }
 
