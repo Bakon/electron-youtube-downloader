@@ -47,7 +47,7 @@
     "@types/mocha": "^5.2.5",
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
-    "acorn": "^6.0.5",
+    "acorn": "^6.4.1",
     "ajv": "^6.6.2",
     "copy-pkg-json-webpack-plugin": "0.0.38",
     "cross-env": "^5.2.0",
